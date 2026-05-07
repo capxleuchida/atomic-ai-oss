@@ -34,8 +34,9 @@ OSS Repos ──▶ textbook_extractor.py ──▶ JSONL
 
 | Metric | Value |
 |--------|-------|
-| Atoms in CAS | 268,000+ |
-| OSS repos harvested | 60+ |
+| Atoms in CAS | 445,000+ |
+| Sample atoms in this repo | 1,000 (see `atoms/sample_1000.jsonl`) |
+| OSS repos harvested | 80+ |
 | Quality gate pass rate | ~95% |
 | Target | 1,000,000 atoms |
 
@@ -54,6 +55,28 @@ python3 scripts/atom_ingest_worker.py --source atomic-library/data/
 
 # Query
 curl http://localhost:8080/v1/atoms?q=sort&limit=10
+```
+
+## Sample Atoms
+
+`atoms/sample_1000.jsonl` — 1,000 quality-gated Python atoms, each with:
+
+- **hash** — SHA-256 content hash for deduplication
+- **name** — function name
+- **description** — English description of what the atom does
+- **description_ja** — Japanese description
+- **intent_tags** — semantic tags (e.g. `["sorting", "algorithm"]`)
+- **code** — the Python function source
+- **quality_grade** — A/B/C/D or ungraded
+
+```python
+import json
+
+with open("atoms/sample_1000.jsonl") as f:
+    for line in f:
+        atom = json.loads(line)
+        print(atom["name"], "—", atom["description"])
+        break
 ```
 
 ## Components
